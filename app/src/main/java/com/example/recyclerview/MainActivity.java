@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
             holder.rTitle.setText(elements.get(position).getName());
             holder.rDesc.setText(elements.get(position).getDescription());
             holder.icon.setImageResource(elements.get(position).getIcon());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(MainActivity.this, elements.get(position).getName()+" pressed.", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(MainActivity.this, elements.get(position).getName()+" pressed.", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
         }
 
         @Override
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder {
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public TextView rTitle;
             public TextView rDesc;
             public ImageView icon;
@@ -88,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 rTitle = itemView.findViewById(R.id.title);
                 rDesc = itemView.findViewById(R.id.desc);
                 icon = itemView.findViewById(R.id.imageView);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                String name = elements.get(getAdapterPosition()).getName();
+                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                intent.putExtra("name", name);
+                startActivity(intent);
             }
         }
     }
